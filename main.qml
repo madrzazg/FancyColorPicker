@@ -9,9 +9,7 @@ ApplicationWindow {
     visible: true
 
 
-    FancyColorPicker{
-        id: picker
-    }
+
 
     Rectangle{
         color: "blue"
@@ -20,6 +18,13 @@ ApplicationWindow {
 
         MouseArea{
             anchors.fill: parent
+            onClicked: picker.open()
+        }
+
+        FancyColorPicker{
+            id: picker
+            width: 200
+            height: 200
         }
     }
 }
