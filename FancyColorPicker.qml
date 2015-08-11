@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtGraphicalEffects 1.0
 
 FocusScope {
     id: scope
@@ -6,10 +7,9 @@ FocusScope {
     scale: 0
     focus: false
 
-    x: root.x
-    y: root.y
-    width: root.width
-    height: root.height
+    width: 220
+    height: 220
+
 
     /* This property holds the model that is used to populate available colors pallete. It can hold up to 9 colors, passed as simple list or ListModel.
     */
@@ -28,25 +28,50 @@ FocusScope {
         root.state = ""
     }
 
+    DropShadow{
+        anchors.fill: scope
+        horizontalOffset: 3
+        verticalOffset: 3
+        radius: 8
+        samples: 16
+        color: "#80000000"
+        source: root
+    }
+
+
     Rectangle {
         id: root
-        width: grid.implicitWidth
-        height: grid.implicitHeight
+        anchors.fill: parent
+        radius: width/2
 
         property string selectedColor
 
         Grid{
             id: grid
             spacing: 5
+            focus: true
+            columns: 3
+            rows: 3
+            rotation: 45
+            anchors.centerIn: parent
 
             Repeater{
                 model: scope.model
 
                 Rectangle{
+                    id: delegate
                     width: 50
                     height: 50
-                    radius: 25
+                    radius: width / 2
                     color: scope.model[index]
+
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked:{
+                            root.selectedColor = delegate.color
+                            scope.colorSelected(root.selectedColor)
+                        }
+                    }
                 }
             }
         }
@@ -70,7 +95,6 @@ FocusScope {
                 PropertyAnimation { target: scope; property: "visible"; duration: 0 }
                 PropertyAnimation { target: scope; property: "scale"; duration: 150 }
             }
-
         }
     }
 }

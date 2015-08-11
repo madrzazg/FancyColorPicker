@@ -12,7 +12,7 @@ ApplicationWindow {
 
 
     Rectangle{
-        color: "blue"
+
         anchors.fill: parent
 
 
@@ -23,8 +23,6 @@ ApplicationWindow {
 
         FancyColorPicker{
             id: picker
-            width: 200
-            height: 200
         }
     }
 }
