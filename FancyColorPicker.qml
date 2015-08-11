@@ -7,18 +7,24 @@ FocusScope {
     scale: 0
     focus: false
 
-    width: 240
-    height: 240
+    width: 150
+    height: 150
+
 
 
     /* This property holds the model that is used to populate available colors pallete. It can hold up to 9 colors, passed as simple list or ListModel.
     */
-    property var model: ["#DFBC5A", "#B451A9", "#72C864", "#81F2E1", "#177047", "#8C4D29", "#67162E", "#DCE428", "#FD7256"]
+    property var model: ["#dfbc5a", "#b451a9", "#72c864", "#81f2e1", "#177047", "#8c4d29", "#67162e", "#dce428", "#fd7256"]
+
+    /* This is alias for grid.currentIndex property, it holds current index of currently selected color.
+    */
+    property alias currentIndex: grid.currentIndex
+
+    readonly property alias selectedColor: root.selectedColor
 
     /* This signal is emitted when user selects color.
     */
     signal colorSelected(string color)
-
 
     /* This function opens dialog at given position. Function calculates x,y values so that when dialog is openned, it is centered both vertically and horizontally.
     */
@@ -52,7 +58,16 @@ FocusScope {
 
         property string selectedColor
 
-        Grid{
+
+        /* Function is called when user selects color by mouse or by pressing space key.
+        */
+        function changeColor(index){
+            root.selectedColor = scope.model[index]
+            scope.colorSelected(root.selectedColor)
+            scope.close()
+        }
+
+        Grid {
             id: grid
             spacing: 10
             focus: true
@@ -60,7 +75,7 @@ FocusScope {
             rows: 3
             anchors.centerIn: parent
 
-            property int currentIndex: 0
+            property int currentIndex: -1
 
             Keys.onRightPressed: {
                 currentIndex = (currentIndex + 1) % 9
@@ -84,12 +99,7 @@ FocusScope {
                 }
             }
 
-            Keys.onSpacePressed: {
-                root.selectedColor = model[currentIndex]
-                update()
-                scope.colorSelected(root.selectedColor)
-                scope.close()
-            }
+            Keys.onSpacePressed: root.changeColor(currentIndex)
 
             Keys.onEscapePressed: {
                 scope.close()
@@ -101,8 +111,8 @@ FocusScope {
 
                 Rectangle{
                     id: delegate
-                    width: 50
-                    height: 50
+                    width: 30
+                    height: 30
                     radius: width / 2
                     color: scope.model[index]
                     scale: grid.currentIndex === index? 1.2 : 1
@@ -113,18 +123,13 @@ FocusScope {
                         id: delegateMouseArea
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked:{
-                            root.selectedColor = delegate.color
-                            scope.colorSelected(root.selectedColor)
-                            scope.close()
-                        }
+                        onClicked: root.changeColor(index)
 
                         onContainsMouseChanged: {
                             if (containsMouse){
                                 grid.currentIndex = index
                             }
                         }
-
                     }
                 }
             }
@@ -152,4 +157,3 @@ FocusScope {
         }
     }
 }
-
