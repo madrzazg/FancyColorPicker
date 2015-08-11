@@ -32,6 +32,15 @@ ApplicationWindow {
         FancyColorPicker {
             id: picker
             onColorSelected: colorIndicator.color = color
+            expandSheet: true
         }
+    }
+
+    Rectangle {
+        width: 150
+        height: 150
+        x: 300
+        y: 300
+        color: "red"
     }
 }

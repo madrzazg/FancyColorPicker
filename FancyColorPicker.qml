@@ -7,8 +7,8 @@ FocusScope {
     scale: 0
     focus: false
 
-    width: 150
-    height: 150
+    width: 160
+    height: 160
 
 
 
@@ -20,7 +20,15 @@ FocusScope {
     */
     property alias currentIndex: grid.currentIndex
 
+    /* This property holds currently selected color.
+    */
     readonly property alias selectedColor: root.selectedColor
+
+    /* Setting this property to true will cause FancyColorPicker to expand greyed out sheet.
+       This indicates that everything that is below that widget is inactive and thus unclickable.
+       Default value: false
+    */
+    property bool expandSheet: false
 
     /* This signal is emitted when user selects color.
     */
@@ -39,14 +47,43 @@ FocusScope {
     }
 
     //Shadow effect to provide layers experience
-    DropShadow{
-        anchors.fill: scope
+    DropShadow {
+        anchors.fill: parent
         horizontalOffset: 3
         verticalOffset: 3
+        cached: true
         radius: 8
         samples: 16
         color: "#80000000"
         source: root
+    }
+
+    // MouseArea that covers entire available area to create application modality(known from dialogs) experiance.
+    MouseArea {
+        width: 5000
+        height: 5000
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        onClicked: scope.close()
+        visible: root.state == "SHOWN"
+
+
+        /* This Loader loads additional Rectangle
+           Grey rectangle is loaded when property expandSheet is set to true
+        */
+        Loader {
+            id: sheetLoader
+            anchors.fill: parent
+            active: (root.state == "SHOWN" && scope.expandSheet)
+
+            sourceComponent: Component {
+                Rectangle {
+                    color: "grey"
+                    anchors.fill: parent
+                    opacity: 0.3
+                }
+            }
+        }
     }
 
 
@@ -56,6 +93,13 @@ FocusScope {
         anchors.fill: parent
         radius: width/2
 
+        // MouseArea that does not allow the MouseArea below overlap, and steal mouse event that closes FancyColorPicker.
+        MouseArea {
+            anchors.fill: parent
+        }
+
+        /* This property holds current color. It is used to draw border line around currently selected color.
+        */
         property string selectedColor
 
 
@@ -75,6 +119,8 @@ FocusScope {
             rows: 3
             anchors.centerIn: parent
 
+            /* The currentIndex property holds the index of the current color.
+            */
             property int currentIndex: -1
 
             Keys.onRightPressed: {
@@ -106,10 +152,10 @@ FocusScope {
             }
 
 
-            Repeater{
+            Repeater {
                 model: scope.model
 
-                Rectangle{
+                Rectangle {
                     id: delegate
                     width: 30
                     height: 30
@@ -119,7 +165,7 @@ FocusScope {
                     border.width: 1
                     border.color: root.selectedColor == color? "black" : "transparent"
 
-                    MouseArea{
+                    MouseArea {
                         id: delegateMouseArea
                         anchors.fill: parent
                         hoverEnabled: true
