@@ -12,17 +12,29 @@ ApplicationWindow {
 
 
     Rectangle{
-
+        color: "lightgrey"
         anchors.fill: parent
+
+        Rectangle{
+            id: colorIndicator
+            width: 50
+            height: 50
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.leftMargin: 10
+            anchors.topMargin: 10
+        }
 
 
         MouseArea{
             anchors.fill: parent
-            onClicked: picker.open()
+            onClicked: picker.open(mouseX, mouseY)
         }
 
         FancyColorPicker{
             id: picker
+
+            onColorSelected: colorIndicator.color = color
         }
     }
 }
