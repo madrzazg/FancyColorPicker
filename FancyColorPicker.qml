@@ -11,7 +11,7 @@ FocusScope {
     height: 160
 
 
-    /* This property holds the model that is used to populate available colors pallete. It can hold up to 9 colors, passed as simple list or ListModel.
+    /* This property holds the model that is used to populate available colors pallete. It can hold up to 9 colors, passed as simple list.
     */
     property var model: ["#dfbc5a", "#b451a9", "#72c864", "#81f2e1", "#177047", "#8c4d29", "#67162e", "#dce428", "#fd7256"]
 
@@ -44,6 +44,7 @@ FocusScope {
 
     function close(){
         root.state = ""
+        scope.parent.forceActiveFocus()
     }
 
     //Shadow effect to provide layers experience

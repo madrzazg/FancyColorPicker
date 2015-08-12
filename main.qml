@@ -1,6 +1,5 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.3
-import QtQuick.Window 2.2
 
 ApplicationWindow {
     title: qsTr("Fancy Color Picker")
@@ -13,6 +12,9 @@ ApplicationWindow {
     Rectangle {
         color: "lightgrey"
         anchors.fill: parent
+        focus: true
+
+        Keys.onSpacePressed: console.log("main.qml space pressed")
 
         Rectangle {
             id: colorIndicator
