@@ -11,7 +11,6 @@ FocusScope {
     height: 160
 
 
-
     /* This property holds the model that is used to populate available colors pallete. It can hold up to 9 colors, passed as simple list or ListModel.
     */
     property var model: ["#dfbc5a", "#b451a9", "#72c864", "#81f2e1", "#177047", "#8c4d29", "#67162e", "#dce428", "#fd7256"]
@@ -27,6 +26,7 @@ FocusScope {
     /* Setting this property to true will cause FancyColorPicker to expand greyed out sheet.
        This indicates that everything that is below that widget is inactive and thus unclickable.
        Default value: false
+       // TODO It does not work as I imagined, yet. There shouldn't be an animation when expanding this sheet. It should be done instantly.
     */
     property bool expandSheet: false
 
@@ -52,11 +52,11 @@ FocusScope {
         horizontalOffset: 3
         verticalOffset: 3
         cached: true
-        radius: 8
         samples: 16
         color: "#80000000"
         source: root
     }
+
 
     // MouseArea that covers entire available area to create application modality(known from dialogs) experiance.
     MouseArea {
@@ -69,7 +69,7 @@ FocusScope {
 
 
         /* This Loader loads additional Rectangle
-           Grey rectangle is loaded when property expandSheet is set to true
+           Grey rectangle is loaded when property expandSheet is set to true.
         */
         Loader {
             id: sheetLoader
@@ -196,8 +196,8 @@ FocusScope {
             to: "SHOWN"
             reversible: true
 
-            SequentialAnimation {
-                PropertyAnimation { target: scope; property: "visible"; duration: 0 }
+            SequentialAnimation {                                       // This is interesting. Duration lower than 2 is tricky.
+                PropertyAnimation { target: scope; property: "visible"; duration: 2 }
                 PropertyAnimation { target: scope; property: "scale"; duration: 150 }
             }
         }

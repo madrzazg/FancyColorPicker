@@ -32,7 +32,6 @@ ApplicationWindow {
         FancyColorPicker {
             id: picker
             onColorSelected: colorIndicator.color = color
-            expandSheet: true
         }
     }
 
