@@ -1,3 +1,14 @@
+/****************************************************************************
+**  FancyColorPicker component lets the user choose and select color from palette containing 9 colors.
+**  This component was created because default(System) ColorDialog often is too 'complicated'.
+**  By complicated I mean that it has more than enough colors, to be used conveniently eg. as a color tag picker.
+**  Imagine selecting tag color from (0, 0, 0) to (255, 255, 255)
+**  Selecting is not a problem, imagine using search box "I remember I used red color to mark this email thread, but there are plenty of reddish colors out there".
+**  Author: Mateusz Drzazga
+**  Email: matt.drzazga@gmail.com
+**
+****************************************************************************/
+
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
 

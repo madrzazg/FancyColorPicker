@@ -1,3 +1,10 @@
+/****************************************************************************
+**  Example application to show how to use FancyColorPicker component.
+**  Author: Mateusz Drzazga
+**  Email: matt.drzazga@gmail.com
+**
+****************************************************************************/
+
 import QtQuick 2.3
 import QtQuick.Controls 1.3
 
